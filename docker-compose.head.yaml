@@ -36,13 +36,16 @@ services:
     image: vllm/vllm-openai:v0.6.4
     environment:
       HF_TOKEN: ${HF_TOKEN}
+      VLLM_HOST_IP: ${CURRENT_NODE_IP}
     volumes:
       - $HOME/.cache/huggingface:/root/.cache/huggingface
+    entrypoint: "ray start --block --head"
     networks:
       - internal
-    entrypoint: "ray start --block --head"
+    # network_mode: host  # Might need to use host network, prolly messes up traefik
     ports:
       - 8000:8000
+      - 6379:6379
     restart: always
     ipc: host
     deploy:

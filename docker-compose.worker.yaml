@@ -4,11 +4,14 @@ services:
     image: vllm/vllm-openai:v0.6.4
     environment:
       HF_TOKEN: ${HF_TOKEN}
+      VLLM_HOST_IP: ${CURRENT_NODE_IP}
     volumes:
       - $HOME/.cache/huggingface:/root/.cache/huggingface
     entrypoint: "ray start --block --address=${HEAD_NODE_IP}:6379"
     ports:
       - 8000:8000
+      - 6379:6379
+    # network_mode: host  # Might need to use host network
     restart: always
     ipc: host
     deploy:
