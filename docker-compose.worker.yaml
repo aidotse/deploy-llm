@@ -1,0 +1,21 @@
+services:
+
+  vllm-worker:
+    image: vllm/vllm-openai:v0.6.4
+    environment:
+      HF_TOKEN: ${HF_TOKEN}
+    volumes:
+      - $HOME/.cache/huggingface:/root/.cache/huggingface
+    entrypoint: "ray start --block --address=${HEAD_NODE_IP}:6379"
+    ports:
+      - 8000:8000
+    restart: always
+    ipc: host
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+

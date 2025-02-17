@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Inspiration from
+# https://docs.vllm.ai/en/v0.5.5/serving/distributed_serving.html#multi-node-inference-and-serving
+
+# Use input arguments if given, otherwise fall back to environment variables
+PIPELINE_PARALLEL_SIZE="${1:-$PIPELINE_PARALLEL_SIZE}"
+MODEL="${2:-$MODEL}"
+
+# Check if the required variables are set
+if [ -z "$MODEL" ]; then
+    echo "Error: MODEL is not set via input or environment."
+    exit 1
+fi
+
+if [ -z "$PIPELINE_PARALLEL_SIZE" ]; then
+    echo "Error: PIPELINE_PARALLEL_SIZE is not set via input or environment."
+    exit 1
+fi
+
+# Execute the command with the provided values
+docker exec -it deploy-llm-vllm-head-1 \
+    vllm serve "$MODEL" \
+    --tensor-parallel-size="$(nvidia-smi -L | wc -l | tr -d ' ')" \
+    --pipeline-parallel-size="$PIPELINE_PARALLEL_SIZE" \
+    --gpu-memory-utilization=0.95 \
+    --root-path=/llm

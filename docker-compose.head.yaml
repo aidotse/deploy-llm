@@ -32,7 +32,7 @@ services:
       - internal
     restart: always
 
-  vllm:
+  vllm-head:
     image: vllm/vllm-openai:v0.6.4
     environment:
       HF_TOKEN: ${HF_TOKEN}
@@ -40,12 +40,7 @@ services:
       - $HOME/.cache/huggingface:/root/.cache/huggingface
     networks:
       - internal
-    command:
-      - "--model=${MODEL}"
-      - "--tensor-parallel-size=2"
-      - "--gpu-memory-utilization=0.95"
-      - "--disable_log_requests"
-      - "--root-path=/llm"
+    entrypoint: "ray start --block --head"
     ports:
       - 8000:8000
     restart: always
