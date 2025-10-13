@@ -1,4 +1,6 @@
 # Deploy LLM
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Faidotse%2Fdeploy-llm.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Faidotse%2Fdeploy-llm?ref=badge_shield)
+
 
 This is a repository for a production-ready LLM deployment (in time)
 
@@ -37,3 +39,7 @@ cp .env.example .env
 ## Running
 
 Start the deployment with `docker compose up -d`
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Faidotse%2Fdeploy-llm.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Faidotse%2Fdeploy-llm?ref=badge_large)
